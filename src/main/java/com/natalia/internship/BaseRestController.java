@@ -2,8 +2,8 @@ package com.natalia.internship;
 
 import com.natalia.internship.model.Student;
 import com.natalia.internship.model.Subject;
-import com.natalia.internship.persistance.StudentTemplate;
-import com.natalia.internship.persistance.SubjectTemplate;
+import com.natalia.internship.persistence.StudentTemplate;
+import com.natalia.internship.persistence.SubjectTemplate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;

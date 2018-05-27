@@ -1,4 +1,4 @@
-package com.natalia.internship.persistance;
+package com.natalia.internship.persistence;
 
 import com.natalia.internship.model.Subject;
 import java.sql.Connection;

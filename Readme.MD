@@ -1,0 +1,1 @@
+The Rest API specs (swagger) can be found at https://morning-cliffs-67166.herokuapp.com/swagger-ui.html

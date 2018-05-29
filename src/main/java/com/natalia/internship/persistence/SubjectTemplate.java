@@ -50,4 +50,47 @@ public class SubjectTemplate {
 		}
 	}
 
+	public Subject getSubject(int subjectId) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("SELECT * FROM subject WHERE subject_id = ?");
+			statement.setInt(1, subjectId);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("subject_id");
+				String subjectName = rs.getString("subject");
+
+				return new Subject(id, subjectName);
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
+
+	public void updateSubject(int studentId, String subject) {
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("UPDATE subject SET subject = ? WHERE subject_id = ?");
+			statement.setString(1, subject);
+			statement.setInt(2, studentId);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
+
+	public void deleteSubject(int id) {
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("DELETE FROM subject WHERE subject_id = ?");
+			statement.setInt(1, id);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
+
 }

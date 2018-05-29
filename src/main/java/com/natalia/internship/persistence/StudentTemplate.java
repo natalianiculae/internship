@@ -87,4 +87,16 @@ public class StudentTemplate {
 			throw new RuntimeException(e.getMessage(), e.getCause());
 		}
 	}
+
+	public void deleteStudent(int id) {
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("DELETE FROM student WHERE student_id = ?");
+			statement.setInt(1, id);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
 }

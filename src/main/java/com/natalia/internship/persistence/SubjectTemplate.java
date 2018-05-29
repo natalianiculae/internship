@@ -71,9 +71,9 @@ public class SubjectTemplate {
 	public void updateSubject(int studentId, String subject) {
 		try {
 			PreparedStatement statement = connection
-					.prepareStatement("UPDATE subject SET subject = ? WHERE subject_id = ?");
-			statement.setString(1, subject);
-			statement.setInt(2, studentId);
+					.prepareStatement("INSERT INTO subject (subject_id, subject) VALUES (?, ?) ON CONFLICT (subject_id) DO UPDATE SET subject = excluded.subject;");
+			statement.setInt(1, studentId);
+			statement.setString(2, subject);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

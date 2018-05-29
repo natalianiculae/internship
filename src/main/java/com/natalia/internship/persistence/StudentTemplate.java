@@ -75,12 +75,13 @@ public class StudentTemplate {
 
 	public void updateStudent(int studentId, String firstName, String lastName, Date birthDate) {
 		try {
+
 			PreparedStatement statement = connection
-					.prepareStatement("UPDATE student SET first_name = ?, last_name = ?, birth_date = ? WHERE student_id = ?");
-			statement.setString(1, firstName);
-			statement.setString(2, lastName);
-			statement.setDate(3, birthDate);
-			statement.setInt(4, studentId);
+					.prepareStatement("INSERT INTO student (student_id, first_name, last_name, birth_date) VALUES (?, ?, ?, ?) ON CONFLICT (student_id) DO UPDATE SET first_name = excluded.first_name, last_name = excluded.last_name, birth_date = excluded.birth_date;");
+			statement.setInt(1, studentId);
+			statement.setString(2, firstName);
+			statement.setString(3, lastName);
+			statement.setDate(4, birthDate);
 			statement.execute();
 		} catch (SQLException e) {
 			e.printStackTrace();

@@ -23,17 +23,6 @@ public class StudentRestController {
 	@Autowired
 	private StudentTemplate studentTemplate;
 
-	@Autowired
-	private SubjectTemplate subjectTemplate;
-
-	@Autowired
-	private GradeTemplate gradeTemplate;
-
-	@GetMapping("/hello")
-	public String hello() {
-		return "Hello World!";
-	}
-
 	@GetMapping("/students")
 	public List<Student> getStudents() {
 		return studentTemplate.getStudents();
@@ -67,31 +56,6 @@ public class StudentRestController {
 				student.getLastName(),
 				student.getBirthDate()
 		);
-	}
-
-	@GetMapping("/students/{studentId}/subjects")
-	public List<StudentGrade> getStudentGrades(@PathVariable int studentId) {
-		return gradeTemplate.getStudentGrades(studentId);
-	}
-
-	@GetMapping("/students/{studentId}/subjects/{subjectId}")
-	public Grade getGrade(@PathVariable int studentId, @PathVariable int subjectId) {
-		Grade grade = gradeTemplate.getGrade(studentId, subjectId);
-		if (grade == null) {
-			throw new NotFoundException(
-					"Grade for student with id " + studentId + " at subject with id " + subjectId + " not found");
-		}
-		return grade;
-	}
-	
-	@DeleteMapping("/students/{studentId}/subjects/{subjectId}")
-	public void deleteGrade(@PathVariable int studentId, @PathVariable int subjectId) {
-		gradeTemplate.deleteGrade(studentId, subjectId);
-	}
-
-	@PutMapping("/students/{studentId}/subjects/{subjectId}")
-	public void updateGrade(@PathVariable int studentId, @PathVariable int subjectId, @RequestBody Grade grade) {
-		gradeTemplate.updateGrade(studentId, subjectId, grade.getGrade());
 	}
 
 }

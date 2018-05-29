@@ -35,7 +35,6 @@ public class SubjectTemplate {
 		} catch (SQLException e) {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage(), e.getCause());
-
 		}
 	}
 
@@ -50,6 +49,5 @@ public class SubjectTemplate {
 			throw new RuntimeException(e.getMessage(), e.getCause());
 		}
 	}
-
 
 }

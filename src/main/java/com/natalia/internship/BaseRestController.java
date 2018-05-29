@@ -1,13 +1,17 @@
 package com.natalia.internship;
 
 import com.natalia.internship.model.Student;
+import com.natalia.internship.model.StudentGrade;
 import com.natalia.internship.model.Subject;
+import com.natalia.internship.persistence.GradeTemplate;
 import com.natalia.internship.persistence.StudentTemplate;
 import com.natalia.internship.persistence.SubjectTemplate;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -18,10 +22,13 @@ public class BaseRestController {
 	private StudentTemplate studentTemplate;
 	
 	@Autowired
-	private SubjectTemplate subjectTemplate;
+	private SubjectTemplate subjectTemplate;	
+	
+	@Autowired
+	private GradeTemplate gradeTemplate;
 	
 	@GetMapping("/hello")
-	public String hello() { 
+	public String hello() {
 		return "Hello World!";
 	}
 	
@@ -36,6 +43,28 @@ public class BaseRestController {
 				student.getLastName(),
 				student.getBirthDate()
 		);
+	}
+	
+	@GetMapping("/student/{id}")
+	public Student getStudent(@PathVariable int id) {
+		Student student = studentTemplate.getStudent(id);
+		if (student == null) {
+			throw new NotFoundException("Student with id " + id + " not found");
+		}
+		return student;
+	}
+	
+	@PutMapping("/student/{id}")
+	public void getStudent(@PathVariable int id, @RequestBody Student student) {
+		studentTemplate.updateStudent(id, student.getFirstName(), 
+				student.getLastName(),
+				student.getBirthDate()
+		);
+	}
+
+	@GetMapping("/student/{id}/grades")
+	public List<StudentGrade> getStudentGrades(@PathVariable int id) {
+		return gradeTemplate.getStudentGrades(id);
 	}
 	
 	@GetMapping("/subjects")

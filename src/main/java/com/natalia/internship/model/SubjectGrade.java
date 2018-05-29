@@ -1,20 +1,31 @@
 package com.natalia.internship.model;
 
 public class SubjectGrade {
-	private String subject;
+
+	private String firstName;
+	private String lastName;
 	private int grade;
 
-	public SubjectGrade(String subject, int grade) {
-		this.subject = subject;
+	public SubjectGrade(String firstName, String lastName, int grade) {
+		this.firstName = firstName;
+		this.lastName = lastName;
 		this.grade = grade;
 	}
 
-	public String getSubject() {
-		return subject;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setSubject(String subject) {
-		this.subject = subject;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public String getLastName() {
+		return lastName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public int getGrade() {
@@ -28,7 +39,8 @@ public class SubjectGrade {
 	@Override
 	public String toString() {
 		final StringBuilder sb = new StringBuilder("SubjectGrade{");
-		sb.append("subject='").append(subject).append('\'');
+		sb.append("firstName='").append(firstName).append('\'');
+		sb.append(", lastName='").append(lastName).append('\'');
 		sb.append(", grade=").append(grade);
 		sb.append('}');
 		return sb.toString();

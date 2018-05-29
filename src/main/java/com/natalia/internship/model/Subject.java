@@ -1,6 +1,7 @@
 package com.natalia.internship.model;
 
 public class Subject {
+
 	private int id;
 	private String subject;
 

@@ -1,7 +1,6 @@
 package com.natalia.internship.persistence;
 
 import com.natalia.internship.model.Student;
-import com.natalia.internship.model.SubjectGrade;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -22,17 +21,16 @@ public class StudentTemplate {
 		this.connection = connection;
 	}
 
-
 	public List<Student> getStudents() {
 		try {
-			ResultSet rs = connection.prepareStatement("Select * from student;").executeQuery();
+			ResultSet rs = connection.prepareStatement("SELECT * FROM student;").executeQuery();
 			List<Student> students = new ArrayList<>();
 			while (rs.next()) {
 				int id = rs.getInt("student_id");
 				String firstName = rs.getString("first_name");
 				String lastName = rs.getString("last_name");
 				Date birthDate = rs.getDate("birth_date");
-				Student student = new Student(id, firstName, lastName, birthDate, getGrades(id));
+				Student student = new Student(id, firstName, lastName, birthDate);
 				students.add(student);
 			}
 			return students;
@@ -40,21 +38,6 @@ public class StudentTemplate {
 			e.printStackTrace();
 			throw new RuntimeException(e.getMessage(), e.getCause());
 		}
-	}
-
-	public List<SubjectGrade> getGrades(int studentId) throws SQLException {
-		PreparedStatement statement = connection.prepareStatement("SELECT * FROM subject inner join student_subject on student_subject.subject_id = subject.subject_id where student_subject.student_id = ?");
-		statement.setInt(1, studentId);
-		ResultSet rs = statement.executeQuery();
-		List<SubjectGrade> grades = new ArrayList<>();
-		while (rs.next()) {
-			int id = rs.getInt("student_id");
-			int grade = rs.getInt("final_grade");
-			String subject = rs.getString("subject");
-			SubjectGrade subjectGrade = new SubjectGrade(subject, grade);
-			grades.add(subjectGrade);
-		}
-		return grades;
 	}
 
 	public void saveStudent(String firstName, String lastName, Date birthDate) {
@@ -70,6 +53,38 @@ public class StudentTemplate {
 			throw new RuntimeException(e.getMessage(), e.getCause());
 		}
 	}
-	
-	
+
+	public Student getStudent(int studentId) {
+		try {
+			PreparedStatement statement = connection.prepareStatement("Select * from student where student_id = ?");
+			statement.setInt(1, studentId);
+			ResultSet rs = statement.executeQuery();
+			while (rs.next()) {
+				int id = rs.getInt("student_id");
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
+				Date birthDate = rs.getDate("birth_date");
+				return new Student(id, firstName, lastName, birthDate);
+			}
+			return null;
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
+
+	public void updateStudent(int studentId, String firstName, String lastName, Date birthDate) {
+		try {
+			PreparedStatement statement = connection
+					.prepareStatement("UPDATE student SET first_name = ?, last_name = ?, birth_date = ? WHERE student_id = ?");
+			statement.setString(1, firstName);
+			statement.setString(2, lastName);
+			statement.setDate(3, birthDate);
+			statement.setInt(4, studentId);
+			statement.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+			throw new RuntimeException(e.getMessage(), e.getCause());
+		}
+	}
 }
